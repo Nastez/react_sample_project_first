@@ -1,15 +1,27 @@
+.buttonAddMessage {
+  display: block;
+}
+
 .dialogs {
   display: grid;
   grid-template-columns: 2fr 10fr;
 }
 
-.dialogsItems {
-  padding: 10px;
+.dialog a {
+  text-decoration: none;
   color: white;
 }
 
-.dialogsItems .active {
-  color: gold;
+.dialogItem img {
+  width: 50px;
+}
+
+.dialogItem {
+  padding: 10px;
+}
+
+.dialogsItems {
+  padding: 10px;
 }
 
 .messages {
@@ -19,5 +31,7 @@
 .messages .message {
 color: white;
 }
+
+
 
 
