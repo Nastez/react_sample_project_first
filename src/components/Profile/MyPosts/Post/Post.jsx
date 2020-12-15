@@ -4,7 +4,7 @@ import s from './Post.module.scss';
 const Post = (props) => {
 	return (
 		<div className={s.item}>
-			<img src='https://art1.ru/wp-content/uploads/2015/12/4213614179_a00cdf823c_o.jpg' />
+			<img src='https://streamdps.ru/upload/iblock/ba4/ba43a8bf5b491168b4f74e9922c88c25.jpg' />
 			{props.message}
 			<div>
 				<span>like</span> {props.likesCount}
