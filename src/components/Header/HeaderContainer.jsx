@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from "./Header";
-import {getAuthDataThunkCreator} from "../../redux/auth-reducer";
+import {getAuthDataThunkCreator, logout} from "../../redux/auth-reducer";
 import {connect} from 'react-redux';
 import {compose} from "redux";
 
@@ -19,4 +19,4 @@ const mapStateToProps = (state) => ({
     login: state.auth.login
 });
 
-export default compose(connect(mapStateToProps, {getAuthDataThunkCreator}))(HeaderContainer);
+export default compose(connect(mapStateToProps, {getAuthDataThunkCreator, logout}))(HeaderContainer);
