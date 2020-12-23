@@ -75,41 +75,42 @@ export const toggleFollowingProgress = (isFetching, userId) => ({type: TOGGLE_IS
 
 // Thunk Creators
 
-export const getUsers = (currentPage, pageSize) => {
-    return (dispatch) => {
+export const requestUsers = (page, pageSize) => {
+    return async (dispatch) => {
         dispatch(toggleIsFetching(true));
-        usersAPI.getUsers(currentPage, pageSize).then(data => {
+        dispatch(setCurrentPage(page));
+        let data = await usersAPI.getUsers(page, pageSize);
+
             dispatch(toggleIsFetching(false));
             dispatch(setUsers(data.items));
             dispatch(setTotalUsersCount(data.totalCount));
-        });
+
     }
 }
 
 export const follow = (userId) => {
-    return (dispatch) => {
+    return async (dispatch) => {
        dispatch(toggleFollowingProgress(true, userId))
 
-        usersAPI.follow(userId).then(data => {
+        let data = await usersAPI.follow(userId);
+
             if (data.resultCode === 0) {
                 dispatch(followSuccess(userId));
             }
             dispatch(toggleFollowingProgress(false, userId))
-        });
     }
 }
 
 export const unfollow = (userId) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(toggleFollowingProgress(true, userId))
 
-        usersAPI.unfollow(userId).then(data => {
+        let data = await usersAPI.unfollow(userId);
+
             if (data.resultCode === 0) {
                dispatch(unfollowSuccess(userId))
             }
             dispatch(toggleFollowingProgress(false, userId))
-
-        });
     }
 }
 
