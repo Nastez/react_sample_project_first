@@ -15,7 +15,6 @@ import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";
 
-
 class App extends React.Component {
 
     componentDidMount() {
@@ -44,7 +43,7 @@ class App extends React.Component {
             </div>
         );
     }
-};
+}
 
 let mapStateToProps = (state) => ({
     initialized: state.app.initialized

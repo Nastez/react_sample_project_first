@@ -7,11 +7,10 @@ import {required} from "../../utils/validators/validators";
 import {Redirect} from "react-router-dom";
 import styles from '../common/FormsControls/FormsControls.module.scss';
 
-
-const LoginForm = (props) => {
+const LoginForm = ({handleSubmit, error}) => { // Деструктуризация пропсов
 
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <Field placeholder='Email' validate={[required]} name='email' component={Input}/>
             </div>
@@ -21,8 +20,8 @@ const LoginForm = (props) => {
             <div>
                 <Field component={Input} name='rememberMe' type='checkbox'/> remember me
             </div>
-            { props.error && <div className={styles.formSummaryError}>
-                {props.error}
+            {error && <div className={styles.formSummaryError}>
+                {error}
             </div>}
             <div>
                 <button>Login</button>
@@ -34,7 +33,6 @@ const LoginForm = (props) => {
 const LoginReduxForm = reduxForm({
     form: 'login'
 })(LoginForm);
-
 
 const Login = (props) => {
     const onSubmit = (formData) => {
