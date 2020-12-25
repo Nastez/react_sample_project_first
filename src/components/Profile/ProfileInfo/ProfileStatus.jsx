@@ -1,5 +1,4 @@
 import React from 'react';
-import s from './ProfileInfo.module.scss';
 
 class ProfileStatus extends React.Component {
 
@@ -33,7 +32,6 @@ class ProfileStatus extends React.Component {
                 status: this.props.status
             })
         }
-
     }
 
     render() {
