@@ -15,7 +15,6 @@ const Dialogs = (props) => {
         props.sendMessage(values.newMessageBody);
     }
 
-
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>

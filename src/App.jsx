@@ -1,6 +1,6 @@
 import './App.scss';
 import React from 'react';
-import {HashRouter, Route, withRouter} from "react-router-dom";
+import {BrowserRouter, Redirect, Route, Switch, withRouter} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
@@ -20,8 +20,17 @@ const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileCo
 
 class App extends React.Component {
 
+    catchAllUnhandledErrors = (promiseRejectionEvent) => {
+        alert('Some error occurred');
+    }
+
     componentDidMount() {
         this.props.initializeApp();
+        window.addEventListener('unhandlerejection', this.catchAllUnhandledErrors);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('unhandlerejection', this.catchAllUnhandledErrors);
     }
 
     render() {
@@ -35,13 +44,17 @@ class App extends React.Component {
                 <HeaderContainer/>
                 <Sidebar/>
                 <div className='app-wrapper-content'>
-                    <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
-                    <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
-                    <Route path='/news' component={News}/>
-                    <Route path='/music' component={Music}/>
-                    <Route path='/users' render={() => <UsersContainer/>}/>
-                    <Route path='/login' render={() => <Login/>}/>
-                    <Route path='/settings' component={Settings}/>
+                    <Switch>
+                        <Route exact path='/' render={() => <Redirect to='/profile'/>}/>
+                        <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
+                        <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
+                        <Route path='/news' component={News}/>
+                        <Route path='/music' component={Music}/>
+                        <Route path='/users' render={() => <UsersContainer/>}/>
+                        <Route path='/login' render={() => <Login/>}/>
+                        <Route path='/settings' component={Settings}/>
+                        <Route path='*' render={() => <div>404 NOT FOUND</div>}/>
+                    </Switch>
                 </div>
             </div>
         );
@@ -55,11 +68,11 @@ let mapStateToProps = (state) => ({
 let AppContainer = compose(withRouter, connect(mapStateToProps, {initializeApp}))(App);
 
 const SamuraiJsApp = (props) => {
-    return <HashRouter>
+    return <BrowserRouter>
         <Provider store={store}>
             <AppContainer/>
         </Provider>
-    </HashRouter>
+    </BrowserRouter>
 }
 
 export default SamuraiJsApp;
