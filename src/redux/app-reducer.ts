@@ -1,22 +1,13 @@
-import {AnyAction} from "redux";
-import {getAuthDataThunkCreator} from "./auth-reducer";
-import {ThunkDispatch} from "redux-thunk";
+import {getAuthDataThunkCreator} from "./auth-reducer"
+import {BaseThunkType, InferActionsTypes} from "./redux-store"
 
-const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
-
-
-
-export type InitialStateType = {
-    initialized: boolean
-}
-
-const initialState: InitialStateType = {
+const initialState = {
     initialized: false
 }
 
-const appReducer = (state = initialState, action: InitializedSuccessActionType): InitialStateType => {
+const appReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case INITIALIZED_SUCCESS:
+        case 'SN/APP/INITIALIZED_SUCCESS':
             return {
                 ...state, // Делаем копию state
                 initialized: true // Перезатираем initialized
@@ -24,24 +15,30 @@ const appReducer = (state = initialState, action: InitializedSuccessActionType):
         default:
             return state;
     }
-};
-
-type InitializedSuccessActionType = {
-    type: typeof INITIALIZED_SUCCESS
 }
 
-export const initializedSuccess = (): InitializedSuccessActionType => ({
-    type: INITIALIZED_SUCCESS
-});
+const actions = {
+    initializedSuccess: () => ({
+        type: 'SN/APP/INITIALIZED_SUCCESS'
+    } as const)
+}
 
-export const initializeApp = () => {
-    return (dispatch: ThunkDispatch<InitialStateType, void, AnyAction>) => {
+export const initializeApp = (): ThunkType => {
+    return (dispatch) => {
         let promise = dispatch(getAuthDataThunkCreator());
         Promise.all([promise])
             .then(() => {
-                dispatch(initializedSuccess());
+                dispatch(actions.initializedSuccess());
             })
     }
-};
+}
 
-export default appReducer;
+export default appReducer
+
+// Types
+
+type InitialStateType = typeof initialState
+
+type ActionsTypes = InferActionsTypes<typeof actions>
+
+type ThunkType = BaseThunkType<ActionsTypes, void>

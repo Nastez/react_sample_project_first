@@ -36,3 +36,18 @@ export type UserType = {
     photos: PhotosType
     followed: boolean
 }
+
+export type DialogsType = {
+    id: number
+    name: string
+}
+
+export type MessagesType = {
+    id: number
+    message: string
+}
+
+export type DialogsPageType = {
+    dialogs: Array<DialogsType>
+    messages: Array<MessagesType>
+}
