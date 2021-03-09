@@ -1,6 +1,4 @@
-import profileReducer, {actions} from './profile-reducer';
-import React from "react";
-import {ProfileType} from "../types/types";
+import profileReducer, {actions} from './profile-reducer'
 
 let state = { //параметры по умолчанию
     posts: [
@@ -16,7 +14,7 @@ let state = { //параметры по умолчанию
 
 test('length of posts should be incremented', () => {
     // 1. test data
-    let action = actions.addPostActionCreator('Yo');
+    let action = actions.addPost('Yo');
 
     // 2. action
     let newState = profileReducer(state, action);
@@ -27,7 +25,7 @@ test('length of posts should be incremented', () => {
 
 test('message of new post should be correct', () => {
     // 1. test data
-    let action = actions.addPostActionCreator('Yo');
+    let action = actions.addPost('Yo');
 
     // 2. action
     let newState = profileReducer(state, action);

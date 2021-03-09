@@ -1,7 +1,11 @@
-import React from 'react';
-import s from './Friend.module.scss';
+import React from 'react'
+import s from './Friend.module.scss'
 
-const Friend = (props) => {
+type PropsType = {
+    name: string
+}
+
+const Friend: React.FC<PropsType> = (props) => {
     return (
         <div className={s.friendGroup}>
             <div className={s.ball}></div>

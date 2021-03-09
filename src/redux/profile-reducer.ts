@@ -12,8 +12,7 @@ let initialState = { //параметры по умолчанию
         {id: 4, message: 'Dada', likesCount: 11}
     ] as Array<PostsType>,
     profile: null as ProfileType | null,
-    status: '',
-    newPostText: ''
+    status: ''
 }
 
 const profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
@@ -28,7 +27,7 @@ const profileReducer = (state = initialState, action: ActionsTypes): InitialStat
             return {
                 ...state, // Делае копию state
                 posts: [...state.posts, newPost], // Хочу создать новый массив постов, поэтому Отдельно копируем массив posts, в эту копию будем пушить newPost
-                newPostText: '' // У копии новый текст поста
+
             };
         case 'SN/PROFILE/SET_STATUS':
             return {
@@ -60,7 +59,7 @@ const profileReducer = (state = initialState, action: ActionsTypes): InitialStat
 // Action Creators
 
 export const actions = {
-    addPostActionCreator: (newPostText: string) => ({type: 'SN/PROFILE/ADD_POST', newPostText} as const),
+    addPost: (newPostText: string) => ({type: 'SN/PROFILE/ADD_POST', newPostText} as const),
     setUserProfile: (profile: ProfileType) => ({type: 'SN/PROFILE/SET_USER_PROFILE', profile} as const),
     setStatus: (status: string) => ({type: 'SN/PROFILE/SET_STATUS', status} as const),
     deletePost: (postId: number) => ({type: 'SN/PROFILE/DELETE_POST', postId} as const),

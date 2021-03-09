@@ -2,8 +2,16 @@ import React from 'react';
 import styles from './Users.module.scss';
 import userPhoto from '../../assets/images/user.png';
 import {NavLink} from "react-router-dom";
+import {UserType} from "../../types/types";
 
-const User = ({user, followingInProgress, follow, unfollow}) => {
+type PropsType = {
+    user: UserType
+    followingInProgress: Array<number>
+    follow: (userId: number) => void
+    unfollow: (userIid: number) => void
+}
+
+const User: React.FC<PropsType> = ({user, followingInProgress, follow, unfollow}) => {
 
     return (
         <div>
@@ -28,7 +36,7 @@ const User = ({user, followingInProgress, follow, unfollow}) => {
                                 Follow</button>}
                     </div>
                 </span>
-                <span>
+            <span>
                     <span>
                         <div>{user.name}</div>
                         <div>{user.status}</div>
@@ -38,10 +46,8 @@ const User = ({user, followingInProgress, follow, unfollow}) => {
                         <div>{"user.location.city"}</div>
                     </span>
                 </span>
-            </div>
-
-
+        </div>
     )
 }
 
-export default User;
+export default User

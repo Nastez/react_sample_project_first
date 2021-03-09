@@ -1,8 +1,8 @@
-import React from 'react';
-import s from './Friends.module.scss';
-//import Friend from "./Friend/Friend";
+import React from 'react'
+import s from './Friends.module.scss'
+//import Friend from "./Friend/Friend"
 
-const Friends = (props) => {
+const Friends: React.FC = (props) => {
 
     //let friendsElements = props.friends.map( f => <Friend name={f.name} />)
 
@@ -11,7 +11,7 @@ const Friends = (props) => {
             <div className={s.friendsTitle}>Friends</div>
             {/*{ friendsElements }*/}
         </div>
-    );
+    )
 }
 
-export default Friends;
+export default Friends

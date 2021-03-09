@@ -3,25 +3,26 @@ import s from './Dialogs.module.scss'
 import DialogItem from './DialogItem/DialogItem'
 import Message from './Message/Message'
 import {InjectedFormProps, reduxForm} from 'redux-form'
-import {createField, Textarea} from '../common/FormsControls/FormsControls'
+import {createField, GetStringKeys, Textarea} from '../common/FormsControls/FormsControls'
 import {maxLengthCreator, required} from '../../utils/validators/validators'
 import {DialogsPageType} from '../../types/types'
+import {InitialStateType} from "../../redux/dialogs-reducer";
 
-/*type DialogsFormOwnProps = {
-    dialogsPage: DialogsPageType
-    sendMessage: (newMessageBody: string) => void
+type PropsType = {
+    dialogsPage: InitialStateType
+    sendMessage: (messageText: string) => void
 }
 
-type DialogsFormValuesType = {
+export type NewMessageFormValuesType = {
     newMessageBody: string
-}*/
+}
 
-const Dialogs = (props) => {
+const Dialogs: React.FC<PropsType> = (props) => {
 
     let dialogsElements = props.dialogsPage.dialogs.map(d => <DialogItem id={d.id} key={d.id} name={d.name}/>);
     let messagesElements = props.dialogsPage.messages.map(m => <Message message={m.message} key={m.id}/>)
 
-    let addNewMessage = (values) => {
+    let addNewMessage = (values: NewMessageFormValuesType) => {
         props.sendMessage(values.newMessageBody)
     }
 
@@ -40,23 +41,25 @@ const Dialogs = (props) => {
 
 const maxLength50 = maxLengthCreator(50)
 
-/*type DialogsFormValuesTypeKeys = Extract<keyof DialogsFormValuesType, string>*/
+type NewMessageFormValuesKeysType =  GetStringKeys<NewMessageFormValuesType>
 
-const AddMessageForm = ({handleSubmit}) => {
+type AddMessageFormPropsType = {}
+
+const AddMessageForm: React.FC<InjectedFormProps<NewMessageFormValuesType, AddMessageFormPropsType> & AddMessageFormPropsType> = ({handleSubmit}) => {
 
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                {createField('Enter new message', 'newMessageBody', [required, maxLength50], Textarea)}
+                {createField<NewMessageFormValuesKeysType>('Enter new message', 'newMessageBody', [required, maxLength50], Textarea)}
             </div>
             <div>
-                <button>Add message</button>
+                <button>Send</button>
             </div>
         </form>
     )
 }
 
-const AddMessageFormRedux = reduxForm({form: 'dialogAddMessageForm'})(AddMessageForm)
+const AddMessageFormRedux = reduxForm<NewMessageFormValuesType, AddMessageFormPropsType>({form: 'dialogAddMessageForm'})(AddMessageForm)
 
 export default Dialogs
 

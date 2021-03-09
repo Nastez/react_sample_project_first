@@ -1,7 +1,6 @@
-import React from 'react';
-import {create} from 'react-test-renderer';
-import Paginator from "./Paginator";
-
+import React from 'react'
+import {create} from 'react-test-renderer'
+import Paginator from "./Paginator"
 
 describe('Paginator Component', () => {
     test('pages count 11 but should show only 10', () => {
@@ -16,5 +15,5 @@ describe('Paginator Component', () => {
         const button = root.findAllByType('button');
         expect(button.length).toBe(1);
     })
-});
+})
 

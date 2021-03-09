@@ -2,7 +2,16 @@ import React from 'react'
 import s from './Header.module.scss'
 import {NavLink} from 'react-router-dom'
 
-const Header = (props) => {
+export type MapStatePropsType = {
+    isAuth: boolean
+    login: string | null
+}
+
+export type DispatchStatePropsType = {
+    logout: () => void
+}
+
+const Header: React.FC<MapStatePropsType & DispatchStatePropsType> = (props) => {
     return (
         <header className={s.header}>
             <img
