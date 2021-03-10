@@ -1,10 +1,10 @@
-import {GetItemsType, instance, ServerResponseType} from "./api"
+import {GetItemsType, instance, ServerResponseType} from './api'
 
 export const usersAPI = {
-    getUsers(currentPage: number, pageSize: number) {
-        return instance.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}`)
+    getUsers(currentPage = 1, pageSize = 10, term: string = '', friend: null | boolean = null) {
+        return instance.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}&term=${term}` + (friend === null ? '' : `&friend=${friend}`))
             .then(response => {
-                return response.data;
+                return response.data
             })
     },
     follow(userId: number) {
