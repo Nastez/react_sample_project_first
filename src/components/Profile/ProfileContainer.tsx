@@ -1,11 +1,11 @@
 import React from 'react'
-import Profile from "./Profile"
-import {connect} from 'react-redux'
-import {getProfile, getStatus, savePhoto, saveProfile, updateStatus} from "../../redux/profile-reducer"
-import {RouteComponentProps, withRouter} from "react-router-dom"
-import {compose} from "redux"
-import {AppStateType} from "../../redux/redux-store"
-import {ProfileType} from "../../types/types"
+import Profile from './Profile'
+import {connect, useDispatch, useSelector} from 'react-redux'
+import {getProfile, getStatus, savePhoto, saveProfile, updateStatus} from '../../redux/profile-reducer'
+import {RouteComponentProps, withRouter} from 'react-router-dom'
+import {compose} from 'redux'
+import {AppStateType} from '../../redux/redux-store'
+import {ProfileType} from '../../types/types'
 
 type MapStatePropsType = ReturnType<typeof mapStateToProps>
 
@@ -23,14 +23,39 @@ type PathParamsType = {
 
 type PropsType = MapStatePropsType & DispatchStatePropsType & RouteComponentProps<PathParamsType>
 
+const ProfilePage: React.FC = () => {
+    const profile = useSelector((state: AppStateType) => state.profilePage.profile)
+    const status = useSelector((state: AppStateType) => state.profilePage.status)
+
+    const dispatch = useDispatch()
+
+    const updateStatus = (status: string) => {
+        dispatch(updateStatus(status))
+    }
+
+
+    return (
+        <div>
+            <Profile {...this.props}
+                     isOwner={!this.props.match.params.userId}
+                     profile={profile}
+                     status={status}
+                     updateStatus={this.props.updateStatus}
+                     savePhoto={this.props.savePhoto}
+                     saveProfile={this.props.saveProfile}
+            />
+        </div>
+    )
+}
+
 class ProfileContainer extends React.Component<PropsType> {
 
     refreshProfile() {
-        let userId: number | null = +this.props.match.params.userId;
+        let userId: number | null = +this.props.match.params.userId
         if (!userId) {
-            userId = this.props.authorizedUserId;
+            userId = this.props.authorizedUserId
             if (!userId) {
-                this.props.history.push('/login');
+                this.props.history.push('/login')
             }
 
         }
@@ -44,12 +69,12 @@ class ProfileContainer extends React.Component<PropsType> {
     }
 
     componentDidMount() {
-        this.refreshProfile();
+        this.refreshProfile()
     }
 
     componentDidUpdate(prevProps: PropsType, prevState: PropsType) {
         if (this.props.match.params.userId !== prevProps.match.params.userId) {
-            this.refreshProfile();
+            this.refreshProfile()
         }
 
     }
