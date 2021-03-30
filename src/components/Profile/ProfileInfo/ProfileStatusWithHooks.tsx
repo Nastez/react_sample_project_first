@@ -1,38 +1,39 @@
 import React, {ChangeEvent, useEffect, useState} from 'react'
-import s from './ProfileInfo.module.scss'
+import {useDispatch, useSelector} from 'react-redux'
+import {getStatusSelector} from '../../../redux/profile-selectors'
+import {updateStatus} from '../../../redux/profile-reducer'
 
-type PropsType = {
-    status: string
-    updateStatus: (status: string) => void
-}
+const ProfileStatusWithHooks: React.FC = (props) => {
 
-const ProfileStatusWithHooks: React.FC<PropsType> = (props) => {
+    const statusSelector = useSelector(getStatusSelector)
 
-    let [editMode, setEditMode] = useState(false); // здесь сидит массив, из которого мы достаем первый элемент и присваем editMode, достаем второй элементи присваем setEditMode
-    let [status, setStatus] = useState(props.status);
+    const dispatch = useDispatch()
+
+    let [editMode, setEditMode] = useState(false) // здесь сидит массив, из которого мы достаем первый элемент и присваем editMode, достаем второй элементи присваем setEditMode
+    let [status, setStatus] = useState(statusSelector)
 
     useEffect(() => {
-        setStatus(props.status);
-    }, [props.status]);
+        setStatus(statusSelector)
+    }, [statusSelector])
 
     const activateEditMode = () => {
-        setEditMode(true);
+        setEditMode(true)
     }
 
     const deactivateEditMode = () => {
-        setEditMode(false);
-        props.updateStatus(status);
+        setEditMode(false)
+        dispatch(updateStatus(status))
     }
 
     const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setStatus( e.currentTarget.value)
+        setStatus(e.currentTarget.value)
     }
 
     return (
         <div>
             {!editMode &&
             <div>
-               <b>Status</b>: <span onDoubleClick={activateEditMode}>{props.status || '-----'}</span>
+                <b>Status</b>: <span onDoubleClick={activateEditMode}>{statusSelector || '-----'}</span>
             </div>
             }
             {editMode &&
@@ -41,7 +42,7 @@ const ProfileStatusWithHooks: React.FC<PropsType> = (props) => {
             </div>
             }
         </div>
-    );
+    )
 }
 
 export default ProfileStatusWithHooks

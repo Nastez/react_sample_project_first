@@ -5,19 +5,26 @@ import ProfileStatusWithHooks from "./ProfileStatusWithHooks"
 import userPhoto from "../../../assets/images/user.png"
 import ProfileDataForm from "./ProfileDataForm"
 import {ContactsType, ProfileType} from "../../../types/types"
+import {getProfileSelector} from '../../../redux/profile-selectors'
+import {useDispatch, useSelector} from 'react-redux'
+import {savePhoto, saveProfile} from '../../../redux/profile-reducer'
+import {ThunkDispatch} from 'redux-thunk'
+import {AppStateType} from '../../../redux/redux-store'
+import {AnyAction} from 'redux'
 
 type PropsType = {
-    profile: ProfileType | null
-    status: string
     isOwner: boolean
-    updateStatus: (status: string) => void
-    savePhoto: (file: File) => void
-    saveProfile: (profile: ProfileType) => Promise<any>
 }
 
-const ProfileInfo: React.FC<PropsType> = ({profile, status, updateStatus, isOwner, savePhoto, saveProfile}) => {
+const ProfileInfo: React.FC<PropsType> = ({isOwner}) => {
 
-    let [editMode, setEditMode] = useState(false); // здесь сидит массив, из которого мы достаем первый элемент и присваем editMode, достаем второй элементи присваем setEditMode
+    type AppDispatch = ThunkDispatch<AppStateType, any, AnyAction> // TODO
+
+    const profile = useSelector(getProfileSelector)
+
+    const dispatch: AppDispatch = useDispatch()
+
+    let [editMode, setEditMode] = useState(false) // здесь сидит массив, из которого мы достаем первый элемент и присваем editMode, достаем второй элементи присваем setEditMode
 
     if (!profile) {
         return <Preloader/>
@@ -25,15 +32,15 @@ const ProfileInfo: React.FC<PropsType> = ({profile, status, updateStatus, isOwne
 
     const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.length) {
-            savePhoto(e.target.files[0]);
+            dispatch(savePhoto(e.target.files[0]))
         }
     }
 
     const onSubmit = (formData: ProfileType) => { // Из формы данные введенные собираем, отправляем в бизнес
-        saveProfile(formData).then(
+        dispatch(saveProfile(formData)).then(
             () => {
-                setEditMode(false);
-            });
+                setEditMode(false)
+            })
     }
 
     return (
@@ -48,8 +55,7 @@ const ProfileInfo: React.FC<PropsType> = ({profile, status, updateStatus, isOwne
                         setEditMode(true)
                     }} profile={profile} isOwner={isOwner}/>
                 }
-
-                <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
+                <ProfileStatusWithHooks/>
             </div>
         </div>
     )
@@ -85,8 +91,9 @@ const ProfileData: React.FC<ProfileDataPropsType> = ({profile, isOwner, goToEdit
                 <b>Contacts</b>: {Object
                 .keys(profile.contacts)
                 .map(key => {
-                return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key as keyof ContactsType]}/>
-            })}
+                    return <Contact key={key} contactTitle={key}
+                                    contactValue={profile.contacts[key as keyof ContactsType]}/>
+                })}
             </div>
         </div>
     )
@@ -105,4 +112,4 @@ const Contact: React.FC<ContactsPropsType> = ({contactTitle, contactValue}) => {
     )
 }
 
-export default ProfileInfo;
+export default ProfileInfo
