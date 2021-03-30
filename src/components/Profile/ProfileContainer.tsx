@@ -23,31 +23,6 @@ type PathParamsType = {
 
 type PropsType = MapStatePropsType & DispatchStatePropsType & RouteComponentProps<PathParamsType>
 
-const ProfilePage: React.FC = () => {
-    const profile = useSelector((state: AppStateType) => state.profilePage.profile)
-    const status = useSelector((state: AppStateType) => state.profilePage.status)
-
-    const dispatch = useDispatch()
-
-    const updateStatus = (status: string) => {
-        dispatch(updateStatus(status))
-    }
-
-
-    return (
-        <div>
-            <Profile {...this.props}
-                     isOwner={!this.props.match.params.userId}
-                     profile={profile}
-                     status={status}
-                     updateStatus={this.props.updateStatus}
-                     savePhoto={this.props.savePhoto}
-                     saveProfile={this.props.saveProfile}
-            />
-        </div>
-    )
-}
-
 class ProfileContainer extends React.Component<PropsType> {
 
     refreshProfile() {
