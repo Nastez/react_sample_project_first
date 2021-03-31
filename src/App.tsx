@@ -1,5 +1,6 @@
 import './App.scss'
 import React from 'react'
+import 'antd/dist/antd.css'
 import {BrowserRouter, Redirect, Route, Switch, withRouter} from 'react-router-dom'
 import News from './components/News/News'
 import Music from './components/Music/Music'
@@ -14,6 +15,7 @@ import Preloader from './components/common/Preloader/Preloader'
 import store, {AppStateType} from './redux/redux-store'
 import {withSuspense} from './hoc/withSuspense'
 import {UsersPage} from './components/Users/UsersContainer'
+import {Button} from 'antd'
 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
@@ -62,7 +64,9 @@ class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
                         <Route path='/users' render={() => <UsersPage pageTitle={'Samurai'}/>}/>
                         <Route path='/login' render={() => <Login/>}/>
                         <Route path='/settings' component={Settings}/>
-                        <Route path='*' render={() => <div>404 NOT FOUND</div>}/>
+                        <Route path='*' render={() => <div>404 NOT FOUND
+                        <Button type={'primary'}>OK</Button>
+                        </div>}/>
                     </Switch>
                 </div>
             </div>
