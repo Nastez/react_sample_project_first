@@ -22,6 +22,7 @@ const {Content, Footer, Sider} = Layout
 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
+const ChatPage = React.lazy(() => import('./pages/chat/ChatPage'))
 
 type MapStatePropsType = ReturnType<typeof mapStateToProps>
 type MapDispatchPropsType = {
@@ -30,6 +31,7 @@ type MapDispatchPropsType = {
 
 const SuspendedDialogs = withSuspense(DialogsContainer)
 const SuspendedProfile = withSuspense(ProfileContainer)
+const SuspendedChat = withSuspense(ChatPage)
 
 class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
 
@@ -78,7 +80,7 @@ class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
                                     <Menu.Item key="8">option8</Menu.Item>
                                 </SubMenu>
                                 <SubMenu key="sub3" icon={<NotificationOutlined/>} title="subnav 3">
-                                    <Menu.Item key="9">option9</Menu.Item>
+                                    <Menu.Item key="9"><Link to='/chat'>Chat</Link></Menu.Item>
                                     <Menu.Item key="10">option10</Menu.Item>
                                     <Menu.Item key="11">option11</Menu.Item>
                                     <Menu.Item key="12">option12</Menu.Item>
@@ -90,6 +92,7 @@ class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
                                 <Route exact path='/' render={() => <Redirect to='/profile'/>}/>
                                 <Route path='/dialogs' render={() => <SuspendedDialogs/>}/>
                                 <Route path='/profile/:userId?' render={() => <SuspendedProfile/>}/>
+                                <Route path='/chat' render={() => <SuspendedChat/>}/>
                                 <Route path='/news' component={News}/>
                                 <Route path='/music' component={Music}/>
                                 <Route path='/developers' render={() => <UsersPage pageTitle={'Samurai'}/>}/>
