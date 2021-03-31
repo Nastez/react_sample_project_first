@@ -2,8 +2,8 @@ import React, {ChangeEvent, useState} from 'react'
 import s from './ProfileInfo.module.scss'
 import Preloader from '../../common/Preloader/Preloader'
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks"
-import userPhoto from "../../../assets/images/user.png"
-import ProfileDataForm from "./ProfileDataForm"
+import userPhoto from '../../../assets/images/user.png'
+import ProfileDataForm from './ProfileDataForm'
 import {ContactsType, ProfileType} from "../../../types/types"
 import {getProfileSelector} from '../../../redux/profile-selectors'
 import {useDispatch, useSelector} from 'react-redux'
