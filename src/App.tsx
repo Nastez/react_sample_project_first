@@ -79,7 +79,7 @@ class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
                                     <Menu.Item key="7">option7</Menu.Item>
                                     <Menu.Item key="8">option8</Menu.Item>
                                 </SubMenu>
-                                <SubMenu key="sub3" icon={<NotificationOutlined/>} title="subnav 3">
+                                <SubMenu key="sub3" icon={<NotificationOutlined/>} title="Chat">
                                     <Menu.Item key="9"><Link to='/chat'>Chat</Link></Menu.Item>
                                     <Menu.Item key="10">option10</Menu.Item>
                                     <Menu.Item key="11">option11</Menu.Item>
